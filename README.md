@@ -158,7 +158,6 @@ class Veiculo{
     +String tipo
 
     verificar_inspecao()
-    bloquear_rota()
 }
 
 class Aluno{
@@ -201,6 +200,7 @@ class Motorista{
     +String cnh
     +int telefone
 
+    iniciar_rota()
     encerrar_rota()
 }
 
