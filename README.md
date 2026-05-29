@@ -152,13 +152,12 @@ Rota --> Central
 classDiagram
 
 class Veiculo{
-    +String placa
+    +String chasi_numero
     +int capacidade
     +date inspecao_tecnica
     +String tipo
 
     verificar_inspecao()
-    iniciar_rota()
     bloquear_rota()
 }
 
@@ -202,12 +201,11 @@ class Motorista{
     +String cnh
     +int telefone
 
-    iniciar_rota()
     encerrar_rota()
 }
 
 Rota "1" -- "*" Aluno
-Aluno "1" -- "*" Presenca
+Aluno "1" -- "1" Presenca
 Veiculo "1" -- "*" Rota
 Motorista "1" -- "*" Rota
 ```
