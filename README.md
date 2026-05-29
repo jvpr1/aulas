@@ -102,7 +102,7 @@ RegistrarRFID --> ValidarAluno
 classDiagram
 
 class Veiculo {
-    +placa : String
+    +chasi : String
     +capacidade : int
     +dataUltimaInspecao : Date
 }
