@@ -10,7 +10,7 @@ class Veiculo(Base):
     __tablename__ = "veiculos"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    chasi_numero: Mapped[str] = mapped_column(String(17), unique=True)
+    chassi_numero: Mapped[str] = mapped_column(String(17), unique=True)
     capacidade: Mapped[int] = mapped_column(Integer)
     inspecao_tecnica: Mapped[date] = mapped_column(Date)
     tipo: Mapped[str] = mapped_column(String(20))
@@ -29,8 +29,7 @@ class Motorista(Base):
     cpf: Mapped[str] = mapped_column(String(11), unique=True)
     nome: Mapped[str] = mapped_column(String(100))
     cnh: Mapped[str] = mapped_column(String(20), unique=True)
-    telefone: Mapped[int] = mapped_column(Integer)
-
+    telefone: Mapped[str] = mapped_column(String(15))
     # Relacionamento 1:N (Um Motorista tem várias Rotas)
     rotas: Mapped[List["Rota"]] = relationship(back_populates="motorista")
 
@@ -85,15 +84,16 @@ class Aluno(Base):
     matricula: Mapped[int] = mapped_column(Integer, unique=True)
     endereco: Mapped[str] = mapped_column(String(255))
     escola: Mapped[str] = mapped_column(String(100))
-    turno: Mapped[time] = mapped_column(Time)
+    turno: Mapped[str] = mapped_column(String(20))
 
     # Chave Estrangeira da Rota (Relacionamento 1:N)
     rota_id: Mapped[int] = mapped_column(ForeignKey("rotas.id"))
     rota: Mapped["Rota"] = relationship(back_populates="alunos")
-
-    # Relacionamento 1:1 (Um Aluno tem uma Presença)
-    presenca: Mapped["Presenca"] = relationship(back_populates="aluno", uselist=False)
-
+     
+    # Relacionamento 1:N (Um Aluno tem várias Presenças)
+    presencas: Mapped[List["Presenca"]] = relationship(
+         back_populates="aluno"
+    )
     def cadastrar(self):
         pass
 
@@ -103,7 +103,6 @@ class Aluno(Base):
     def consultar_presenca(self):
         pass
 
-
 class Presenca(Base):
     __tablename__ = "presencas"
 
@@ -112,12 +111,18 @@ class Presenca(Base):
     horarioEntrada: Mapped[time] = mapped_column(Time)
     status: Mapped[bool] = mapped_column(Boolean)
 
-    # Chave Estrangeira do Aluno (Relacionamento 1:1)
-    aluno_id: Mapped[int] = mapped_column(ForeignKey("alunos.id"), unique=True)
-    aluno: Mapped["Aluno"] = relationship(back_populates="presenca")
+    # Chave Estrangeira do Aluno (Relacionamento 1:N)
+    aluno_id: Mapped[int] = mapped_column(
+        ForeignKey("alunos.id")
+    )
+
+    aluno: Mapped["Aluno"] = relationship(
+        back_populates="presencas"
+    )
 
     def registrar(self):
         pass
 
     def consultar(self):
         pass
+
