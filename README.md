@@ -1,57 +1,65 @@
-``# Sistema de Transporte Escolar
+`# Sistema de Transporte Escolar com RFID
 
-## 1. Lista de Requisitos
+Integrantes
+Emerson Ferreira
+Jackson Vitório
+Lucas Felipe
+Marjory Letícia
+Taíná Tarcila
 
-### Requisitos Funcionais (RF)
+# Descrição
 
-RF01 – Cadastro de veículos  
-O sistema deve permitir cadastrar ônibus e vans contendo placa, capacidade e data da última inspeção técnica.
+Sistema para gerenciamento de transporte escolar utilizando RFID para controle de presença dos alunos.
 
-RF02 – Cadastro de alunos  
+##Objetivo
+
+Desenvolver um sistema de transporte escolar com tecnologia RFID para controlar a presença dos alunos, gerenciar veículos, motoristas e rotas, garantindo maior segurança e eficiência no transporte.
+
+1. Lista de Requisitos
+Requisitos Funcionais (RF)
+
+RF01 – Cadastro de veículos
+O sistema deve permitir cadastrar ônibus e vans contendo número do chassi, capacidade e data da última inspeção técnica.
+
+RF02 – Cadastro de alunos
 O sistema deve permitir cadastrar alunos com endereço, escola e turno.
 
-RF03 – Cadastro de rotas  
+RF03 – Cadastro de rotas
 O sistema deve permitir cadastrar rotas contendo motorista, veículo e pontos de parada.
 
-RF04 – Associação de alunos às rotas  
+RF04 – Associação de alunos às rotas
 O sistema deve permitir vincular alunos a uma rota específica.
 
-RF05 – Registro de presença via RFID  
+RF05 – Registro de presença via RFID
 O sistema deve registrar o horário de entrada do aluno ao passar a carteirinha no sensor.
 
-RF06 – Validação de aluno na rota  
+RF06 – Validação de aluno na rota
 O sistema deve validar se o aluno pertence à rota antes de registrar sua presença.
 
-RF07 – Verificação da inspeção técnica  
+RF07 – Verificação da inspeção técnica
 O sistema deve verificar se o veículo possui inspeção válida antes de iniciar a rota.
 
-RF08 – Bloqueio de início da rota  
+RF08 – Bloqueio de início da rota
 O sistema deve bloquear o início da viagem caso a inspeção esteja vencida.
 
-RF09 – Notificação para a central  
+RF09 – Notificação para a central
 O sistema deve notificar a central quando houver tentativa de iniciar rota com inspeção vencida.
 
----
+Requisitos Não Funcionais (RNF)
 
-### Requisitos Não Funcionais (RNF)
-
-RNF01 – Segurança  
+RNF01 – Segurança
 O sistema deve permitir acesso apenas a usuários autorizados.
 
-RNF02 – Desempenho  
+RNF02 – Desempenho
 A validação do RFID deve ocorrer rapidamente.
 
-RNF03 – Disponibilidade  
+RNF03 – Disponibilidade
 O sistema deve funcionar durante os horários escolares.
 
-RNF04 – Armazenamento  
+RNF04 – Armazenamento
 O sistema deve manter histórico de presença dos alunos.
 
----
-
-# 2. Casos de Uso
-
-```mermaid
+2. Casos de Uso
 flowchart LR
 
 Administrador((Administrador))
@@ -92,17 +100,12 @@ Central --> Monitoramento
 
 IniciarRota --> Bloqueio
 RegistrarRFID --> ValidarAluno
-```
 
----
-
-# 3. Diagrama de Estrutura
-
-```mermaid
+3. Diagrama de Estrutura
 classDiagram
 
 class Veiculo {
-    +chasi : String
+    +chassi : String
     +capacidade : int
     +dataUltimaInspecao : Date
 }
@@ -142,17 +145,12 @@ Rota --> Aluno
 Aluno --> Presenca
 SensorRFID --> Presenca
 Rota --> Central
-```
 
----
-
-# 4. Diagrama de Classes
-
-```mermaid
+4. Diagrama de Classes
 classDiagram
 
 class Veiculo{
-    +String chasi_numero
+    +String chassi_numero
     +int capacidade
     +date inspecao_tecnica
     +String tipo
@@ -165,7 +163,7 @@ class Aluno{
     +int matricula
     +String endereco
     +String escola
-    +time turno
+    +String turno
 
     cadastrar()
     validar_RFID()
@@ -198,23 +196,18 @@ class Motorista{
     +String cpf
     +String nome
     +String cnh
-    +int telefone
+    +String telefone
 
     iniciar_rota()
     encerrar_rota()
 }
 
 Rota "1" -- "*" Aluno
-Aluno "1" -- "1" Presenca
+Aluno "1" -- "*" Presenca
 Veiculo "1" -- "*" Rota
 Motorista "1" -- "*" Rota
-```
 
----
-
-# 5. Diagrama de Sequência
-
-```mermaid
+5. Diagrama de Sequência
 sequenceDiagram
 Motorista->>Sistema: iniciar rota
 Sistema->>Veiculo: verificar inspecao
@@ -239,4 +232,23 @@ else aluno invalido
     Rota-->>Sistema: negado
     Sistema-->>Aluno: acesso negado
 end
-```
+
+## Ferramentas CASE Utilizadas
+
+Durante o desenvolvimento do Sistema de Transporte Escolar com RFID foram utilizadas ferramentas CASE para apoiar a análise, modelagem e documentação do sistema.
+
+Mermaid: utilizada para a criação dos diagramas de Casos de Uso, Estrutura, Classes e Sequência.
+GitHub: utilizado para controle de versão e gerenciamento colaborativo do projeto.
+SQLAlchemy: utilizado para o mapeamento objeto-relacional (ORM) entre as classes Python e o banco de dados.
+
+Essas ferramentas contribuíram para a organização da documentação, rastreabilidade dos requisitos e padronização dos artefatos produzidos.
+
+## Tecnologias Utilizadas
+-Python
+-SQLAlchemy
+-Mermaid
+-GitHub
+
+## Conclusão
+
+O sistema proposto permite o gerenciamento do transporte escolar utilizando RFID para registro automático de presença, controle de rotas e validação de inspeções técnicas dos veículos
